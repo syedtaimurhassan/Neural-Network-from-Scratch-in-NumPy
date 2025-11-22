@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.DS_Store
+
+# Data and artifacts
+data/
+wandb/
+checkpoints/
+logs/
+outputs/
+
+# Editor/compiler
+.idea/
+.vscode/

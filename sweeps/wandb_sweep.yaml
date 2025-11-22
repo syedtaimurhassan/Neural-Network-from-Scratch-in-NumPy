@@ -1,0 +1,51 @@
+method: bayes
+metric:
+  name: val_loss
+  goal: minimize
+parameters:
+  lr:
+    min: 1e-4
+    max: 5e-3
+  hidden_layers:
+    values:
+      - "256,128"
+      - "512,256"
+  activation:
+    values: ["relu", "gelu"]
+  optimizer:
+    values: ["adam", "nadam"]
+  dropout:
+    values: [0.0, 0.1]
+  batch_norm:
+    values: [true, false]
+  l2:
+    min: 0.0
+    max: 0.01
+command:
+  - ${env}
+  - ${python}
+  - train.py
+  - --dataset
+  - fashion
+  - --epochs
+  - 5
+  - --batch-size
+  - 128
+  - --hidden-layers
+  - ${hidden_layers}
+  - --activation
+  - ${activation}
+  - --optimizer
+  - ${optimizer}
+  - --lr
+  - ${lr}
+  - --dropout
+  - ${dropout}
+  - --batch-norm
+  - ${batch_norm}
+  - --l2
+  - ${l2}
+  - --wandb-project
+  - your_project
+  - --wandb-mode
+  - online
