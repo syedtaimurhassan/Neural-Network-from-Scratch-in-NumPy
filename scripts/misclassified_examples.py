@@ -87,7 +87,7 @@ def plot_misclassified(dataset, samples, out_path: pathlib.Path):
 def main():
     parser = argparse.ArgumentParser(description="Save misclassified examples grid from checkpoint.")
     parser.add_argument("--dataset", choices=["fashion", "cifar10"], required=True)
-    parser.add_argument("--data-dir", type=pathlib.Path, default=pathlib.Path("data"))
+    parser.add_argument("--data-dir", type=pathlib.Path, default=pathlib.Path("../data"))
     parser.add_argument("--checkpoint", type=pathlib.Path, required=True)
     parser.add_argument("--hidden-layers", type=str, default="256,128")
     parser.add_argument("--activation", type=str, default="relu")

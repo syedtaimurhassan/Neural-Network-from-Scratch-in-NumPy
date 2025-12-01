@@ -6,7 +6,7 @@ import shutil
 import time
 
 
-FASHION_PRIMARY = "https://fashion-mnist.s3-website.eu-central-1.amazonaws.com"
+FASHION_PRIMARY = "https://github.com/zalandoresearch/fashion-mnist/raw/master/data/fashion/"
 FASHION_FALLBACK = "https://storage.googleapis.com/tensorflow/tf-keras-datasets"
 CIFAR10_URL = "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz"
 
@@ -66,7 +66,7 @@ def download_cifar10(data_dir: pathlib.Path):
 
 def main():
     parser = argparse.ArgumentParser(description="Download Fashion-MNIST and CIFAR-10 datasets.")
-    parser.add_argument("--data-dir", type=pathlib.Path, default=pathlib.Path("data"))
+    parser.add_argument("--data-dir", type=pathlib.Path, default=pathlib.Path("../data"))
     parser.add_argument("--dataset", choices=["fashion", "cifar10", "all"], default="all")
     args = parser.parse_args()
 
