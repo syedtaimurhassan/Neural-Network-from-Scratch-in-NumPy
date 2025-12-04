@@ -188,7 +188,7 @@ def parse_args():
     parser.add_argument("--val-ratio", type=float, default=0.1)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--dropout", type=float, default=0.0)
-    parser.add_argument("--batch-norm", action="store_true")
+    parser.add_argument("--batch-norm", type=bool, default=False)
     parser.add_argument("--clip-grad-norm", type=float, default=None)
     parser.add_argument("--patience", type=int, default=5)
     parser.add_argument("--scheduler", type=str, default="none", choices=["none", "step", "plateau"])
