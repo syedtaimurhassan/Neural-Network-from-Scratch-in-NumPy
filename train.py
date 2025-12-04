@@ -171,9 +171,22 @@ def run_classification(config):
     finish(wandb_run)
 
 
+def str2bool(v):
+    """Convert string to boolean for argparse."""
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, str):
+        if v.lower() in ("yes", "true", "t", "1"):
+            return True
+        elif v.lower() in ("no", "false", "f", "0"):
+            return False
+    raise argparse.ArgumentTypeError("Boolean value expected.")
+
 def parse_args():
-    """Parse CLI arguments."""
+    """Parse CLI arguments allowing both --arg=value and --arg value."""
     parser = argparse.ArgumentParser(description="NumPy MLP trainer.")
+
+    # Core dataset/training options
     parser.add_argument("--dataset", type=str, default="xor", choices=["xor", "fashion", "cifar10"])
     parser.add_argument("--data-dir", type=pathlib.Path, default=pathlib.Path("data"))
     parser.add_argument("--epochs", type=int, default=5)
@@ -188,20 +201,23 @@ def parse_args():
     parser.add_argument("--val-ratio", type=float, default=0.1)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--dropout", type=float, default=0.0)
-    parser.add_argument("--batch-norm", type=bool, default=False)
+    parser.add_argument("--batch-norm", type=str2bool, default=False)
     parser.add_argument("--clip-grad-norm", type=float, default=None)
     parser.add_argument("--patience", type=int, default=5)
     parser.add_argument("--scheduler", type=str, default="none", choices=["none", "step", "plateau"])
     parser.add_argument("--step-size", type=int, default=5)
     parser.add_argument("--gamma", type=float, default=0.5)
+
+    # Logging / checkpointing
     parser.add_argument("--log-dir", type=pathlib.Path, default=pathlib.Path("logs"))
     parser.add_argument("--checkpoint-dir", type=pathlib.Path, default=pathlib.Path("checkpoints"))
-    parser.add_argument("--eval-only", action="store_true")
+    parser.add_argument("--eval-only", type=str2bool, default=False)
     parser.add_argument("--checkpoint", type=pathlib.Path, default=None)
     parser.add_argument("--wandb-project", type=str, default=None)
     parser.add_argument("--wandb-mode", type=str, default="disabled", choices=["disabled", "online", "offline"])
     parser.add_argument("--run-name", type=str, default=None)
     parser.add_argument("--name", type=str, default=None, help="Alias for run-name (for sweep compatibility)")
+
     return parser.parse_args()
 
 

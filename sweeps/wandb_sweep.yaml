@@ -1,52 +1,40 @@
 program: train.py
-method: bayes
-metric:
-  name: val_loss
-  goal: minimize
+method: grid  # You can also use "random" or "bayes" later for sweeps
+
+# Optional sweep name
+name: fashion_mnist_sweep
+
+# Default values for the run
 parameters:
+  dataset:
+    value: fashion
+  data-dir:
+    value: data
+  epochs:
+    value: 20
+  batch-size:
+    values: [64, 128]   # try different batch sizes
   lr:
-    min: 0.0001
-    max: 0.005
-  hidden_layers:
-    values:
-      - "256,128"
-      - "512,256"
-  activation:
-    values: ["relu", "gelu"]
+    values: [0.001, 0.0005, 0.0001]
   optimizer:
-    values: ["adam", "nadam"]
+    values: ["adam", "sgd"]
+  activation:
+    values: ["relu", "tanh"]
+  hidden-layers:
+    value: "256,128"  # you can try different architectures later
   dropout:
-    values: [0.0, 0.1]
-  batch_norm:
+    values: [0.0, 0.2, 0.5]
+  batch-norm:
     values: [true, false]
-  l2:
-    min: 0.0
-    max: 0.01
-command:
-  - ${env}
-  - ${python}
-  - train.py
-  - --dataset
-  - fashion
-  - --epochs
-  - 5
-  - --batch-size
-  - 128
-  - --hidden-layers
-  - ${hidden_layers}
-  - --activation
-  - ${activation}
-  - --optimizer
-  - ${optimizer}
-  - --lr
-  - ${lr}
-  - --dropout
-  - ${dropout}
-  - --batch-norm
-  - ${batch_norm}
-  - --l2
-  - ${l2}
-  - --wandb-project
-  - your_project
-  - --wandb-mode
-  - online
+  weight-decay:
+    values: [0.0, 0.0001, 0.001]
+  scheduler:
+    value: none
+  patience:
+    value: 5
+  seed:
+    value: 42
+  wandb-project:
+    value: fashion_mnist_demo
+  wandb-mode:
+    value: online
